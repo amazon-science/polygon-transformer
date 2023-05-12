@@ -12,7 +12,7 @@ by [Jiang Liu*](https://joellliu.github.io/), [Hui Ding*](http://www.huiding.org
 
 
 ## :notes: Introduction
-![github_figure](https://polyformer.github.io/images/pipeline.gif)
+![](https://polyformer.github.io/images/pipeline.gif)
 PolyFormer is a unified model for referring image segmentation (polygon vertex sequence) and referring expression comprehension (bounding box corner points). The polygons are converted to segmentation masks in the end.
 
 **Contributions:**
@@ -110,10 +110,12 @@ Please make sure to link the pretrain weight paths (Line 20) in the finetuning s
 Run the evaluation scripts for evaluating on the referring image segmentation and referring expression comprehension tasks:
 ```bash
 cd run_scripts/evaluation
+
 # for evaluating PolyFormer-B model
 bash evaluate_polyformer_b_refcoco.sh 
 bash evaluate_polyformer_b_refcoco+.sh 
 bash evaluate_polyformer_b_refcocog.sh 
+
 # for evaluating PolyFormer-L model
 bash evaluate_polyformer_l_refcoco.sh 
 bash evaluate_polyformer_l_refcoco+.sh 
