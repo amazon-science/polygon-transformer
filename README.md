@@ -124,7 +124,7 @@ bash evaluate_polyformer_l_refcocog.sh
 ## Model Zoo
 |            | Refcoco val|| | Refcoco testA|| | Refcoco testB| || Refcoco+ val| || Refcoco+ testA| || Refcoco+ testB| || Refcocog val| || Refcocog test| || 
 |------------|------|------|------|------|------|------|------|------|------|------|------|--------|------|--------|------|--------|------|--------|------|--------|------|--------|------|--------|
-|    Model   | oIoU | mIoU |mAP| oIoU | mIoU  |mAP | oIoU | mIoU  |mAP  | oIoU | mIoU  |mAP  | oIoU | mIoU  |mAP  | oIoU | mIoU  |mAP  | oIoU | mIoU   |mAP | oIoU | mIoU   |mAP |
+|    Model   | oIoU | mIoU |Prec@0.5| oIoU | mIoU  |Prec@0.5 | oIoU | mIoU  |Prec@0.5  | oIoU | mIoU  |Prec@0.5  | oIoU | mIoU  |Prec@0.5  | oIoU | mIoU  |Prec@0.5  | oIoU | mIoU   |Prec@0.5 | oIoU | mIoU   |Prec@0.5 |
 |PolyFormerB  | 74.82| 75.96| 89.73|76.64| 77.09 | 91.73| 71.06| 73.22 | 86.03 | 67.64| 70.65 | 83.73 | 72.89| 74.51 | 88.60 | 59.33| 64.64 | 76.38 | 67.76| 69.36  | 84.46| 69.05| 69.88 | 84.96 | 
 |PolyFormerL  | 75.96| 76.94| 90.38|78.29| 78.49 | 92.89| 73.25| 74.83 |  87.16| 69.33| 72.15 | 84.98 | 74.56| 75.71 | 89.77 | 61.87| 66.73 | 77.97 | 69.20| 71.15 | 85.83 | 70.19| 71.17  | 85.91| 
 
