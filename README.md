@@ -65,7 +65,7 @@ PolyFormer/
 ```bash
 python data/create_pretraining_data.py
 ```
-## Prepare finetuning data
+### Prepare Finetuning Data
 1. Follow the instructions in the `./refer` directory to set up subdirectories
 and download annotations.
 This directory is based on the [refer](https://github.com/lichengunc/refer) API.
@@ -79,7 +79,7 @@ python data/create_finetuning_data.py
 
 
 ## Pretraining
-### Checkpoints
+### Prepare Checkpoints
 1. Create the checkpoints folder
 ```bash
 mkdir weights
@@ -91,7 +91,7 @@ and put the `pth` files in `./pretrained_weights`.
 These weights are needed for training to initialize the model.
 
 
-### Run the pretraining scripts for model pretraining on the referring expression comprehension task:
+3. Run the pretraining scripts for model pretraining on the referring expression comprehension task:
 ```bash
 cd run_scripts/pretrain
 bash pretrain_polyformer_b.sh  # for pretraining PolyFormer-B model
@@ -128,6 +128,12 @@ bash evaluate_polyformer_l_refcocog.sh
 | task   |    model   | oIoU | mIoU | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   |
 | RIS| [PolyFormerL]  | 75.96| 76.94| 78.29| 78.49  | 73.25| 74.83  | 69.33| 72.15  | 74.56| 75.71  | 61.87| 66.73  | 69.20| 71.15  | 70.19| 71.17  | 
 | RIS| [PolyFormerB]  | 74.82| 75.96| 76.64| 77.09  | 71.06| 73.22  | 67.64| 70.65  | 72.89| 74.51  | 59.33| 64.64  | 67.76| 69.36  | 69.05| 69.88  | 
+
+
+| Model                           | Task    | Log | PQ   | mAP  | mIoU |
+|---------------------------------|---------|-----|------|------|------|
+| X-Decoder (davit-d5,Deformable) | PanoSeg |  [log]   | 52.4 | 38.7 | 59.1 |
+
 
 
 # Acknowlegement
