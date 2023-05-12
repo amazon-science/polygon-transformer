@@ -122,7 +122,7 @@ bash evaluate_polyformer_l_refcocog.sh
 
 
 ## Model Zoo
-|                     | Refcoco val| | Refcoco testA| | Refcoco testB| | Refcoco+ val| | Refcoco+ testA| | Refcoco+ testB| | Refcocog val| | Refcocog test| | 
+|         |            | Refcoco val| | Refcoco testA| | Refcoco testB| | Refcoco+ val| | Refcoco+ testA| | Refcoco+ testB| | Refcocog val| | Refcocog test| | 
 |--------|------------|------|------|------|--------|------|--------|------|--------|------|--------|------|--------|------|--------|------|--------|
 | task   |    model   | oIoU | mIoU | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   |
 | RIS| [PolyFormerL]  | 75.96| 76.94| 78.29| 78.49  | 73.25| 74.83  | 69.33| 72.15  | 74.56| 75.71  | 61.87| 66.73  | 69.20| 71.15  | 70.19| 71.17  | 
