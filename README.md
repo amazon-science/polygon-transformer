@@ -12,7 +12,7 @@ by [Jiang Liu*](https://joellliu.github.io/), [Hui Ding*](http://www.huiding.org
 
 
 ## :notes: Introduction
-![](https://polyformer.github.io/images/pipeline.gif)
+![github_figure](pipeline.gif)
 PolyFormer is a unified model for referring image segmentation (polygon vertex sequence) and referring expression comprehension (bounding box corner points). The polygons are converted to segmentation masks in the end.
 
 **Contributions:**
