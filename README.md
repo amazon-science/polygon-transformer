@@ -11,24 +11,30 @@
 by [Jiang Liu*](https://joellliu.github.io/), [Hui Ding*](http://www.huiding.org/), [Zhaowei Cai](https://zhaoweicai.github.io/),  [Yuting Zhang](https://scholar.google.com/citations?user=9UfZJskAAAAJ&hl=en), [Ravi Kumar Satzoda](https://scholar.google.com.sg/citations?user=4ngycwIAAAAJ&hl=en), [Vijay Mahadevan](https://scholar.google.com/citations?user=n9fRgvkAAAAJ&hl=en), [R. Manmatha](https://ciir.cs.umass.edu/~manmatha/), CVPR 2023.
 
 
+## :notes: Introduction
+![github_figure](https://polyformer.github.io/images/pipeline.gif)
+PolyFormer is a unified model for referring image segmentation (polygon vertex sequence) and referring expression comprehension (bounding box corner points). The polygons are converted to segmentation masks in the end.
 
-# Requirements
-* python 3.7.4
-* pytorch 1.8.1
-* torchvision 0.9.1
+**Contributions:**
+
+* State-of-the-art results on referring image segmentation and referring expression comprehension on 6 datasets; 
+* A unified framework for referring image segmentation (RIS) and referring expression comprehension (REC) by formulating them as a sequence-to-sequence (seq2seq) prediction problem; 
+* A regression-based decoder for accurate coordinate prediction, which outputs continuous 2D coordinates directly without quantization error..
 
 
-# Installation
+
+## Getting Started
+### Installation
 ```bash
 conda create -n polyformer python=3.7.4
 conda activate polyformer
-conda install pip==21.2.4
-pip install -r requirements.txt
+pip3 install torch==1.8.1 torchvision==0.9.1 --extra-index-url https://download.pytorch.org/whl/cu113
+python -m pip install -r requirements.txt
 ```
 
 
-# Datasets 
-## Prepare Pretraining Data
+## Datasets 
+### Prepare Pretraining Data
 1. Create the dataset folders
 ```bash
 mkdir datasets
@@ -70,7 +76,10 @@ python data/create_finetuning_data.py
 ```
 
 
-# Checkpoints
+
+
+## Pretraining
+### Checkpoints
 1. Create the checkpoints folder
 ```bash
 mkdir weights
@@ -82,16 +91,14 @@ and put the `pth` files in `./pretrained_weights`.
 These weights are needed for training to initialize the model.
 
 
-
-# Pretraining
-Run the pretraining scripts for model pretraining on the referring expression comprehension task:
+### Run the pretraining scripts for model pretraining on the referring expression comprehension task:
 ```bash
 cd run_scripts/pretrain
 bash pretrain_polyformer_b.sh  # for pretraining PolyFormer-B model
 bash pretrain_polyformer_l.sh  # for pretraining PolyFormer-L model
 ```
 
-# Finetuning
+## Finetuning
 Run the finetuning scripts for model pretraining on the referring image segmentation and referring expression comprehension tasks:
 ```bash
 cd run_scripts/finetune
@@ -100,7 +107,7 @@ bash train_polyformer_l.sh  # for finetuning PolyFormer-L model
 ```
 Please make sure to link the pretrain weight paths (Line 20) in the finetuning scripts to the best pretraining checkpoints. 
 
-# Evaluation
+## Evaluation
 Run the evaluation scripts for evaluating on the referring image segmentation and referring expression comprehension tasks:
 ```bash
 cd run_scripts/evaluation
@@ -113,6 +120,15 @@ bash evaluate_polyformer_l_refcoco.sh
 bash evaluate_polyformer_l_refcoco+.sh 
 bash evaluate_polyformer_l_refcocog.sh 
 ```
+
+
+## Model Zoo
+|                     | Refcoco val | Refcoco testA | Refcoco testB | Refcoco+ val | Refcoco+ testA | Refcoco+ testB | Refcocog val | Refcocog test | 
+|--------|------------|------|------|------|--------|------|--------|------|--------|------|--------|------|--------|------|--------|------|--------|
+| task   |    model   | oIoU | mIoU | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   | oIoU | mIoU   |
+| RIS| [PolyFormerL]  | 75.96| 76.94| 78.29| 78.49  | 73.25| 74.83  | 69.33| 72.15  | 74.56| 75.71  | 61.87| 66.73  | 69.20| 71.15  | 70.19| 71.17  | 
+| RIS| [PolyFormerB]  | 74.82| 75.96| 76.64| 77.09  | 71.06| 73.22  | 67.64| 70.65  | 72.89| 74.51  | 59.33| 64.64  | 67.76| 69.36  | 69.05| 69.88  | 
+
 
 # Acknowlegement
 This codebase is developed based on [OFA](https://github.com/OFA-Sys/OFA). 
