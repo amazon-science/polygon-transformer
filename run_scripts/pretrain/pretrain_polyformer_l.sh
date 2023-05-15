@@ -12,7 +12,7 @@ save_dir=./polyformer_l_pretrain_checkpoints
 mkdir -p $log_dir $save_dir
 
 bpe_dir=../../utils/BPE
-user_dir=../../ofa_module
+user_dir=../../polyformer_module
 
 data_dir=../../datasets/pretrain
 data=${data_dir}/train_shuffled.tsv,${data_dir}/val_refcoco_unc.tsv

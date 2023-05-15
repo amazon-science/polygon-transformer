@@ -3,7 +3,10 @@
 # Copyright (c) 2021 Microsoft
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Ze Liu
-# --------------------------------------------------------
+# ------------------------------------------------------------------------
+# Modifications Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
 
 import torch
 import torch.nn as nn

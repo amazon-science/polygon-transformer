@@ -1,4 +1,4 @@
-from refer import REFER
+from refer.refer import REFER
 import numpy as np
 from PIL import Image
 import random

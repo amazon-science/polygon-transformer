@@ -1,7 +1,12 @@
+# ------------------------------------------------------------------------
+# Modified from OFA (https://github.com/OFA-Sys/OFA)
 # Copyright 2022 The OFA-Sys Team. 
 # All rights reserved.
 # This source code is licensed under the Apache 2.0 license 
 # found in the LICENSE file in the root directory.
+# ------------------------------------------------------------------------
+# Modifications Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 
 import math
 import os.path
@@ -451,7 +456,7 @@ class TransformerEncoder(FairseqEncoder):
                                                 depths=[2, 2, 18, 2], num_heads=[4, 8, 16, 32])
             if out_index == 2:
                 conv_dim = 512
-            ckpt_path = "../../weights/swin_base_patch4_window12_384_22k.pth"
+            ckpt_path = "../../pretrained_weights/swin_base_patch4_window12_384_22k.pth"
             if os.path.exists(ckpt_path):
                 self.embed_images.init_weights(pretrained=ckpt_path)
                 print("Loaded Swin Pretrained Weights", ckpt_path)
@@ -461,7 +466,7 @@ class TransformerEncoder(FairseqEncoder):
                                                 out_indices=[out_indices],
                                                 depths=[2, 2, 18, 2], num_heads=[6, 12, 24, 48])
             conv_dim = 768 if out_indices == 2 else 1536
-            ckpt_path = "../../weights/swin_large_patch4_window12_384_22k.pth"
+            ckpt_path = "../../pretrained_weights/swin_large_patch4_window12_384_22k.pth"
             if os.path.exists(ckpt_path):
                 self.embed_images.init_weights(pretrained=ckpt_path)
                 print("Loaded Swin Pretrained Weights", ckpt_path)
