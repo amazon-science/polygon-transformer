@@ -22,6 +22,7 @@ from fairseq.tasks import register_task
 from tasks.base_task import BaseTask, BaseConfig
 from data.refcoco_pretrain_dataset import RefcocoPretrainDataset
 from data.file_dataset import FileDataset
+from tasks.base_task import BaseTask, BaseConfig, load_bert_pretrained_weights
 
 logger = logging.getLogger(__name__)
 
@@ -90,14 +91,13 @@ class RefcocoPretrainTask(BaseTask):
 
     def build_model(self, cfg):
         model = super().build_model(cfg)
-        bert_path = "../../weights/bert.pth"
+        bert_path = "../../pretrained_weights/bert-base-uncased-pytorch_model.bin"
         if os.path.exists(bert_path):
-            bert_weight = torch.load(bert_path)
-            model.encoder.bert.load_state_dict(bert_weight)
+            load_bert_pretrained_weights(model.encoder.bert, bert_path)
         if cfg._name == 'polyformer_b':
-            swin_path = "../../weights/swin_base_patch4_window12_384_22k.pth"
+            swin_path = "../../pretrained_weights/swin_base_patch4_window12_384_22k.pth"
         else:
-            swin_path = "../../weights/swin_large_patch4_window12_384_22k.pth"
+            swin_path = "../../pretrained_weights/swin_large_patch4_window12_384_22k.pth"
         if os.path.exists(swin_path):
             model.encoder.embed_images.init_weights(pretrained=swin_path)
         return model

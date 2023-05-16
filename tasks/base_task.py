@@ -21,10 +21,96 @@ from fairseq.optim.amp_optimizer import AMPOptimizer
 from fairseq.dataclass import FairseqDataclass
 from fairseq.tasks import FairseqTask, register_task
 from omegaconf import DictConfig
+from torch import Tensor, device, dtype, nn
 
 
 
 logger = logging.getLogger(__name__)
+
+
+def load_bert_pretrained_weights(model, ckpt_path):
+    try:
+        state_dict = torch.load(ckpt_path, map_location="cpu")
+    except Exception:
+        raise OSError(
+            "Unable to load weights from pytorch checkpoint file. "
+            "If you tried to load a PyTorch model from a TF 2.0 checkpoint, please set from_tf=True. "
+        )
+
+    missing_keys = []
+    unexpected_keys = []
+    error_msgs = []
+
+
+    # Convert old format to new format if needed from a PyTorch state_dict
+    old_keys = []
+    new_keys = []
+    for key in state_dict.keys():
+        new_key = None
+        if "gamma" in key:
+            new_key = key.replace("gamma", "weight")
+        if "beta" in key:
+            new_key = key.replace("beta", "bias")
+        if new_key:
+            old_keys.append(key)
+            new_keys.append(new_key)
+    for old_key, new_key in zip(old_keys, new_keys):
+        state_dict[new_key] = state_dict.pop(old_key)
+
+    # copy state_dict so _load_from_state_dict can modify it
+    metadata = getattr(state_dict, "_metadata", None)
+    state_dict = state_dict.copy()
+    if metadata is not None:
+        state_dict._metadata = metadata
+
+    ##############################################################################################
+
+    # PyTorch's `_load_from_state_dict` does not copy parameters in a module's descendants
+    # so we need to apply the function recursively.
+    def load(module: nn.Module, prefix=""):
+        local_metadata = {} if metadata is None else metadata.get(prefix[:-1], {})
+        module._load_from_state_dict(
+            state_dict, prefix, local_metadata, True, missing_keys, unexpected_keys, error_msgs,
+        )
+        for name, child in module._modules.items():
+            if child is not None:
+                load(child, prefix + name + ".")
+
+    # Make sure we are able to load base models as well as derived models (with heads)
+    start_prefix = "bert."
+    load(model, prefix=start_prefix)
+
+    if len(unexpected_keys) > 0:
+        logger.warning(
+            f"Some weights of the model checkpoint at {ckpt_path} were not used when "
+            f"initializing {model.__class__.__name__}: {unexpected_keys}\n"
+            f"- This IS expected if you are initializing {model.__class__.__name__} from the checkpoint of a model trained on another task "
+            f"or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).\n"
+            f"- This IS NOT expected if you are initializing {model.__class__.__name__} from the checkpoint of a model that you expect "
+            f"to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model)."
+        )
+    else:
+        logger.info(f"All model checkpoint weights were used when initializing {model.__class__.__name__}.\n")
+    if len(missing_keys) > 0:
+        logger.warning(
+            f"Some weights of {model.__class__.__name__} were not initialized from the model checkpoint at {ckpt_path} "
+            f"and are newly initialized: {missing_keys}\n"
+            f"You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference."
+        )
+    else:
+        logger.info(
+            f"All the weights of {model.__class__.__name__} were initialized from the model checkpoint at {ckpt_path}.\n"
+            f"If your task is similar to the task the model of the ckeckpoint was trained on, "
+            f"you can already use {model.__class__.__name__} for predictions without further training."
+        )
+    if len(error_msgs) > 0:
+        raise RuntimeError(
+            "Error(s) in loading state_dict for {}:\n\t{}".format(
+                model.__class__.__name__, "\n\t".join(error_msgs)
+            )
+        )
+
+
 
 
 @dataclass
