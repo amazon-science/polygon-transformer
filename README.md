@@ -136,7 +136,7 @@ Download the model weights to `./weights` if you want to use our trained models 
 | [PolyFormer-L](https://drive.google.com/file/d/15P6m5RI6HAQE2QXQXMAjw_oBsaPii7b3/view?usp=share_link) | 75.96| 76.94 | 90.38   |78.29| 78.49 | 92.89| 73.25| 74.83 |  87.16| 
 
 
-|                                  [test_demo.py](..%2F..%2FDownloads%2Ftest_demo.py)                                                                     | Refcoco val|           | | Refcoco testA|       |       | Refcoco testB| ||
+|                                                                                                      | Refcoco+ val|           | | Refcoco+ testA|       |       | Refcoco+ testB| ||
 |--------------------------------------------------------------------------------------------------------|------|------|------|------|------|------|------|------|------|
 | Model                                                                                                  | oIoU | mIoU |Prec@0.5| oIoU | mIoU  |Prec@0.5 | oIoU | mIoU  |Prec@0.5  | 
 | [PolyFormer-B ](https://drive.google.com/file/d/12_ylFhsbqGySxDqgeEByn8nKoJtT2n2w/view?usp=share_link) |  67.64| 70.65 | 83.73 | 72.89| 74.51 | 88.60 | 59.33| 64.64 | 76.38 | 67.76| 69.36  | 
