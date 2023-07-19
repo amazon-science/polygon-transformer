@@ -6,7 +6,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/polyformer-referring-image-segmentation-as/referring-expression-comprehension-on-refcoco-1)](https://paperswithcode.com/sota/referring-expression-comprehension-on-refcoco-1?p=polyformer-referring-image-segmentation-as)
 
 
-\[[Project Page](https://polyformer.github.io/)\]   \[[Paper](https://arxiv.org/abs/2302.07387)\]   
+\[[Project Page](https://polyformer.github.io/)\]   \[[Paper](https://arxiv.org/abs/2302.07387)\]   \[[Demo](https://huggingface.co/spaces/koajoel/PolyFormer)\]
 
 by [Jiang Liu*](https://joellliu.github.io/), [Hui Ding*](http://www.huiding.org/), [Zhaowei Cai](https://zhaoweicai.github.io/),  [Yuting Zhang](https://scholar.google.com/citations?user=9UfZJskAAAAJ&hl=en), [Ravi Kumar Satzoda](https://scholar.google.com.sg/citations?user=4ngycwIAAAAJ&hl=en), [Vijay Mahadevan](https://scholar.google.com/citations?user=n9fRgvkAAAAJ&hl=en), [R. Manmatha](https://ciir.cs.umass.edu/~manmatha/).
 
@@ -28,10 +28,14 @@ PolyFormer is a unified model for referring image segmentation (polygon vertex s
 ```bash
 conda create -n polyformer python=3.7.4
 conda activate polyformer
-pip3 install torch==1.8.1 torchvision==0.9.1 --extra-index-url https://download.pytorch.org/whl/cu113
 python -m pip install -r requirements.txt
 ```
-
+Note: if you are getting import errors from `fairseq`, try the following:
+```bash
+python -m pip install pip==21.2.4
+pip uninstall fairseq
+pip install -r requirements.txt
+```
 
 ## Datasets 
 ### Prepare Pretraining Data
@@ -52,11 +56,11 @@ The workspace directory should be organized like this:
 PolyFormer/
 ├── datasets/
 │   ├── images
-│   │   ├── flickr30k/
+│   │   ├── flickr30k/*.jpg
 │   │   ├── mscoco/
-│   │   │   └── train2014/
-│   │   ├── saiaprtc12/
-│   │   └── visual-genome/
+│   │   │   └── train2014/*.jpg
+│   │   ├── saiaprtc12/*.jpg
+│   │   └── visual-genome/*.jpg
 │   └── annotations
 │       └── instances.json
 └── ...
@@ -85,8 +89,8 @@ mkdir pretrained_weights
 ```
 2. Download pretrain weights of [Swin-base](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth),
 [Swin-large](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_large_patch4_window12_384_22k.pth),
-BERT-base
-and put the `pth` files in `./pretrained_weights`.
+[BERT-base](https://cdn.huggingface.co/bert-base-uncased-pytorch_model.bin)
+and put the weight files in `./pretrained_weights`.
 These weights are needed for training to initialize the model.
 
 
@@ -122,38 +126,38 @@ bash evaluate_polyformer_l_refcoco+.sh
 bash evaluate_polyformer_l_refcocog.sh 
 ```
 
-
 ## Model Zoo
-|            | Refcoco val|| | Refcoco testA|| | Refcoco testB| ||
-|------------|------|------|------|------|------|------|------|------|------|
-|    Model   | oIoU | mIoU |Prec@0.5| oIoU | mIoU  |Prec@0.5 | oIoU | mIoU  |Prec@0.5  | 
-|PolyFormerB [Checkpoint](https://drive.google.com/file/d/1K0y-WBO6cL7gBzNnJaHAeNu3pgq4DbJ9/view?usp=share_link)  | 74.82| 75.96| 89.73|76.64| 77.09 | 91.73| 71.06| 73.22 | 86.03 | 
-|PolyFormerL [Checkpoint](https://drive.google.com/file/d/15P6m5RI6HAQE2QXQXMAjw_oBsaPii7b3/view?usp=share_link)  | 75.96| 76.94| 90.38|78.29| 78.49 | 92.89| 73.25| 74.83 |  87.16| 
+Download the model weights to `./weights` if you want to use our trained models for finetuning and evaluation.
+
+|                                                                                                       | Refcoco val|           | | Refcoco testA|       |       | Refcoco testB| ||
+|-------------------------------------------------------------------------------------------------------|------|------|---------|------|-------|------|-----|------|------|
+| Model                                                                                                 | oIoU | mIoU | Prec@0.5 | oIoU | mIoU  |Prec@0.5 | oIoU | mIoU  |Prec@0.5  | 
+| [PolyFormer-B](https://drive.google.com/file/d/1K0y-WBO6cL7gBzNnJaHAeNu3pgq4DbJ9/view?usp=share_link) | 74.82| 75.96 | 89.73   |76.64| 77.09 | 91.73| 71.06| 73.22 | 86.03 | 
+| [PolyFormer-L](https://drive.google.com/file/d/15P6m5RI6HAQE2QXQXMAjw_oBsaPii7b3/view?usp=share_link) | 75.96| 76.94 | 90.38   |78.29| 78.49 | 92.89| 73.25| 74.83 |  87.16| 
 
 
-|            | Refcoco+ val| || Refcoco+ testA| || Refcoco+ testB| ||
-|------------|------|------|------|------|------|------|------|------|------|
-|    Model   | oIoU | mIoU |Prec@0.5| oIoU | mIoU  |Prec@0.5 | oIoU | mIoU  |Prec@0.5  | 
-|PolyFormerB [Checkpoint](https://drive.google.com/file/d/12_ylFhsbqGySxDqgeEByn8nKoJtT2n2w/view?usp=share_link)  |  67.64| 70.65 | 83.73 | 72.89| 74.51 | 88.60 | 59.33| 64.64 | 76.38 | 67.76| 69.36  | 
-|PolyFormerL [Checkpoint](https://drive.google.com/file/d/1lUCv7dUPctEz4vEpPr7aI8A8ZmfYCB8y/view?usp=share_link)  |  69.33| 72.15 | 84.98 | 74.56| 75.71 | 89.77 | 61.87| 66.73 | 77.97 | 69.20| 71.15 | 
+|                                                                                                      | Refcoco+ val|           | | Refcoco+ testA|       |       | Refcoco+ testB| ||
+|--------------------------------------------------------------------------------------------------------|------|------|------|------|------|------|------|------|------|
+| Model                                                                                                  | oIoU | mIoU |Prec@0.5| oIoU | mIoU  |Prec@0.5 | oIoU | mIoU  |Prec@0.5  | 
+| [PolyFormer-B ](https://drive.google.com/file/d/12_ylFhsbqGySxDqgeEByn8nKoJtT2n2w/view?usp=share_link) |  67.64| 70.65 | 83.73 | 72.89| 74.51 | 88.60 | 59.33| 64.64 | 76.38 | 67.76| 69.36  | 
+| [PolyFormer-L](https://drive.google.com/file/d/1lUCv7dUPctEz4vEpPr7aI8A8ZmfYCB8y/view?usp=share_link)  |  69.33| 72.15 | 84.98 | 74.56| 75.71 | 89.77 | 61.87| 66.73 | 77.97 | 69.20| 71.15 | 
 
 
-|            |  Refcocog val| || Refcocog test| || 
-|------------|------|------|------|------|------|------|
-|    Model   |  oIoU | mIoU   |Prec@0.5 | oIoU | mIoU   |Prec@0.5 |
-|PolyFormerB [Checkpoint](https://drive.google.com/file/d/12_ylFhsbqGySxDqgeEByn8nKoJtT2n2w/view?usp=share_link)  |  67.76| 69.36  | 84.46| 69.05| 69.88 | 84.96 | 
-|PolyFormerL [Checkpoint](https://drive.google.com/file/d/1lUCv7dUPctEz4vEpPr7aI8A8ZmfYCB8y/view?usp=share_link)  |  69.20| 71.15 | 85.83 | 70.19| 71.17  | 85.91| 
+|                                                                                                       |  Refcocog val| || | Refcocog test| | 
+|-------------------------------------------------------------------------------------------------------|------|------|------|------|------|------|
+| Model                                                                                                 |  oIoU | mIoU   |Prec@0.5 | oIoU | mIoU   |Prec@0.5 |
+| [PolyFormer-B](https://drive.google.com/file/d/1am7SKADCJgdOoXcd6z5JNEB3dHlabraA/view?usp=share_link) |  67.76| 69.36  | 84.46| 69.05| 69.88 | 84.96 | 
+| [PolyFormer-L](https://drive.google.com/file/d/1upjK4YmtQT9b6qcA3yj3DXKnOuI52Pxv/view?usp=share_link) |  69.20| 71.15 | 85.83 | 70.19| 71.17  | 85.91| 
 
-* PolyFormerB Pretrain [Checkpoint](https://drive.google.com/file/d/1sAzfChYDdHdaeatB2K14lrJjG4uiXAol/view?usp=share_link)
-* PolyFormerL Pretrain [Checkpoint](https://drive.google.com/file/d/1knRxgM1lmEkuZZ-cOm_fmwKP1H0bJGU9/view?usp=share_link)
-
+* Pretrained weights:
+  * [PolyFormer-B](https://drive.google.com/file/d/1sAzfChYDdHdaeatB2K14lrJjG4uiXAol/view?usp=share_link)
+  * [PolyFormer-L](https://drive.google.com/file/d/1knRxgM1lmEkuZZ-cOm_fmwKP1H0bJGU9/view?usp=share_link)
 
 ## Run the demo
 You can run the demo locally by:
 ```bash
 python app.py
 ```
-
 
 # Acknowlegement
 This codebase is developed based on [OFA](https://github.com/OFA-Sys/OFA). 
